@@ -56,6 +56,18 @@ p{font-size:clamp(1rem,2.8vw,1.18rem);line-height:1.75}
 .sparkles{font-size:clamp(1.5rem,5vw,2.5rem);letter-spacing:.3em}
 footer{text-align:center;font:12px Arial,sans-serif;color:#a35c7b;padding:20px}
 @media(max-width:580px){.gallery{grid-template-columns:1fr}.photo{height:320px;min-height:260px}.hero,.panel{border-radius:22px}.countdown{gap:6px}.time{border-radius:12px;padding:12px 2px}}
+
+.heart-tap{font-size:clamp(100px,25vw,180px);background:transparent;color:#e83e83;filter:drop-shadow(0 0 18px #ff8fbd);animation:heartbeat 1.25s infinite;display:block;margin:8px auto}
+@keyframes heartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.12)}28%{transform:scale(1)}42%{transform:scale(1.1)}70%{transform:scale(1)}}
+.gift-box{font-size:clamp(100px,25vw,170px);background:transparent;display:block;margin:12px auto;transition:transform .4s}
+.gift-box.opened{transform:rotate(-8deg) scale(1.12)}
+.moon{font-size:clamp(100px,24vw,170px);background:transparent;display:block;margin:10px auto;filter:drop-shadow(0 0 25px #e7baff);animation:moonGlow 2s infinite alternate}
+@keyframes moonGlow{to{filter:drop-shadow(0 0 40px #d59aff)}}
+.wish-butterflies{font-size:40px;letter-spacing:12px;animation:butterflyFloat 2s ease-in-out infinite alternate}
+@keyframes butterflyFloat{to{transform:translateY(-12px)}}
+.reveal-hero{min-height:65vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#fff7cf,#ffc8df 45%,#f28ab7);overflow:hidden}
+.reveal-hero h1{font-size:clamp(3rem,12vw,7rem);text-shadow:0 4px 0 #fff,0 0 25px #fff}
+
 </style>
 </head>
 <body>
@@ -76,8 +88,16 @@ footer{text-align:center;font:12px Arial,sans-serif;color:#a35c7b;padding:20px}
   </section>
 
   <nav class="nav hidden" id="nav">
-    <button onclick="showSection('wish')">Birthday wish</button><button onclick="showSection('cakeSection')">🎂 Cake</button><button onclick="showSection('memories')">Our photos</button><button onclick="showSection('letterSection')">Love letter</button><button onclick="showSection('finale')">Final surprise</button>
+    <button onclick="showSection('wish')">Birthday wish 💗</button><button onclick="showSection('cakeSection')">🎂 Cake</button><button onclick="showSection('heartSection')">💓 My heart</button><button onclick="showSection('giftSection')">🎁 Gift</button><button onclick="showSection('moonSection')">🌙 Moon</button><button onclick="showSection('wishSection')">🦋 Make a wish</button><button onclick="showSection('memories')">Our photos 📸</button><button onclick="showSection('letterSection')">Love letter 💌</button><button onclick="showSection('finale')">Final surprise ✨</button>
   </nav>
+
+  <section class="panel section reveal-hero" id="grandReveal">
+    <div class="sparkles">✨ 💗 ✨ 🌸 ✨</div>
+    <div class="kicker">The moment you've been waiting for</div>
+    <h1>HAPPY<br>BIRTHDAY<br>SIMRAN! 🎂</h1>
+    <p class="script">Today, the world celebrates you — and my heart does too. ❤️</p>
+    <button class="btn" onclick="showSection('wish')">Begin your surprise 💝</button>
+  </section>
 
   <section class="panel section" id="wish">
     <div class="kicker">Today is all about you</div>
@@ -85,7 +105,7 @@ footer{text-align:center;font:12px Arial,sans-serif;color:#a35c7b;padding:20px}
     <p class="script">To the girl who makes ordinary moments feel a little more beautiful…</p>
     <p>Today, I hope the world gives you back even a little of the happiness you bring into my life. You deserve love that feels safe, laughter that comes easily, dreams that come true, and a thousand tiny reasons to smile.</p>
     <p><strong>Happy Birthday, meri Simran. ❤️</strong></p>
-    <button class="btn" onclick="showSection('cakeSection')">There’s a cake for you 🎂</button>
+    <button class="btn" onclick="showSection('cakeSection')">There’s a cake for you 🎂</button><button class="btn secondary" onclick="showSection('heartSection')">A little heart surprise 💓</button>
   </section>
 
   <section class="panel section" id="cakeSection">
@@ -96,7 +116,40 @@ footer{text-align:center;font:12px Arial,sans-serif;color:#a35c7b;padding:20px}
     <button class="btn secondary" id="micBtn" onclick="listenForBlow()">Use microphone</button>
     <p id="cakeMessage" class="script">Your wish is precious. Make it with all your heart 💗</p>
     <button class="btn hidden" id="musicBtn" onclick="toggleMusic()">Play birthday music 🎵</button>
-    <button class="btn secondary" onclick="showSection('memories')">Next: our memories 📸</button>
+    <button class="btn secondary" onclick="showSection('heartSection')">More surprises 💓</button><button class="btn secondary" onclick="showSection('memories')">Next: our memories 📸</button>
+  </section>
+
+  <section class="panel section" id="heartSection">
+    <div class="kicker">A little piece of my heart</div><h2>Tap My Heart 💓</h2>
+    <p>Simran, tap the heart and see what it wants to tell you.</p>
+    <button class="heart-tap" aria-label="Tap my heart" onclick="heartMessage()">♥</button>
+    <p id="heartMessage" class="script">There's a little message waiting inside this heart. ❤️</p>
+    <button class="btn" onclick="showSection('giftSection')">Next surprise 🎁</button>
+  </section>
+
+  <section class="panel section" id="giftSection">
+    <div class="kicker">Something just for you</div><h2>Magic Gift Box 🎁</h2>
+    <p>Every gift is small compared to what you mean to me. Tap to open yours.</p>
+    <button class="gift-box" id="giftBox" onclick="openGift()" aria-label="Open gift">🎁</button>
+    <div id="giftMessage" class="secret hidden"><p class="script">Surprise, Simran! 💗 If I could wrap one thing up for you, it would be all the happiness you deserve.</p><p>Six moments, countless feelings — our photos are waiting for you. 📸</p></div>
+    <button class="btn" onclick="showSection('moonSection')">Next surprise 🌙</button>
+  </section>
+
+  <section class="panel section" id="moonSection">
+    <div class="kicker">A message written in the stars</div><h2>The Moon Knows 🌙</h2>
+    <p>Tap the moon to reveal a little secret from Sandeep.</p>
+    <button class="moon" onclick="moonMessage()" aria-label="Reveal moon message">🌙</button>
+    <p id="moonMessage" class="script">The moon is keeping a message just for you…</p>
+    <button class="btn" onclick="showSection('wishSection')">Make a wish 🦋</button>
+  </section>
+
+  <section class="panel section" id="wishSection">
+    <div class="kicker">Close your eyes and wish</div><h2>Make a Wish 🦋</h2>
+    <div class="wish-butterflies" aria-hidden="true">🦋 ✨ 🦋</div>
+    <p>Tap the butterfly and send your birthday wish into the universe.</p>
+    <button class="btn" onclick="makeWish()">Release your wish ✨</button>
+    <p id="wishMessage" class="script">May this new year of your life bring you more reasons to smile. 💗</p>
+    <button class="btn" onclick="showSection('cakeSection')">Now, make a wish on your cake 🎂</button>
   </section>
 
   <section class="panel section" id="memories">
@@ -104,14 +157,14 @@ footer{text-align:center;font:12px Arial,sans-serif;color:#a35c7b;padding:20px}
     <p>Every photo has a story, and every story with you is special to me.</p>
     <p class="lock-note">Our moments together, saved here just for you. 💗</p>
     <div class="gallery">
-      <div class="photo"><img src="memory1.jpg" alt="Simran smiling"><span class="overlay">Your beautiful smile 💗</span></div>
-      <div class="photo"><img src="memory2.jpg" alt="Sandeep and Simran together"><span class="overlay">A memory with you 💞</span></div>
-      <div class="photo"><img src="memory3.jpg" alt="Sandeep and Simran selfie"><span class="overlay">Us, together 🌷</span></div>
-      <div class="photo"><img src="memory4.jpg" alt="Sandeep and Simran smiling together"><span class="overlay">My favourite person 💕</span></div>
-      <div class="photo"><img src="memory5.jpg" alt="A playful selfie together"><span class="overlay">Our silly moments 🥰</span></div>
-      <div class="photo"><img src="memory6.jpg" alt="Simran portrait"><span class="overlay">The birthday girl 🌸</span></div>
+      <div class="photo"><img src="memory1.jpg" alt="Simran memory 1"><span class="overlay">A memory to keep 💗</span></div>
+      <div class="photo"><img src="memory2.jpg" alt="Simran memory 2"><span class="overlay">My favourite person 🌷</span></div>
+      <div class="photo"><img src="memory3.jpg" alt="Our memory 3"><span class="overlay">A little moment, a big feeling 💞</span></div>
+      <div class="photo"><img src="memory4.jpg" alt="Our memory 4"><span class="overlay">Us, in our own little world ✨</span></div>
+      <div class="photo"><img src="memory5.jpg" alt="Our memory 5"><span class="overlay">A smile I want to remember ❤️</span></div>
+      <div class="photo"><img src="memory6.jpg" alt="Our memory 6"><span class="overlay">One of my precious memories 🥹</span></div>
     </div>
-    <button class="btn" onclick="showSection('letterSection')">A letter from my heart 💌</button>
+    <button class="btn" onclick="showSection('letterSection')">A letter from my heart 💌</button><button class="btn secondary" onclick="showSection('finale')">Go to final surprise ✨</button>
   </section>
 
   <section class="panel section" id="letterSection">
@@ -155,7 +208,7 @@ function updateCountdown(){
  document.getElementById('days').textContent=String(d).padStart(2,'0');document.getElementById('hours').textContent=String(h).padStart(2,'0');document.getElementById('mins').textContent=String(m).padStart(2,'0');document.getElementById('secs').textContent=String(s).padStart(2,'0');
 }
 setInterval(updateCountdown,1000);updateCountdown();
-function unlock(){if(Date.now()<target){alert('Almost there! Your surprise unlocks at midnight 💗');return}unlocked=true;document.getElementById('nav').classList.remove('hidden');showSection('wish');celebrate()}
+function unlock(){if(Date.now()<target){alert('Almost there! Your surprise unlocks at midnight 💗');return}unlocked=true;document.getElementById('nav').classList.remove('hidden');showSection('grandReveal');celebrate()}
 function showSection(id){if(!unlocked && Date.now()>=target)unlocked=true;if(!unlocked){alert('Your surprise unlocks at midnight on 27 October 💌');return}document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
 function blowCandle(){document.getElementById('flame').classList.add('out');document.getElementById('cakeMessage').textContent='Wish made! May all your sweetest dreams come true. Happy Birthday, Simran! 🎉';document.getElementById('musicBtn').classList.remove('hidden');startMusic();celebrate()}
 function getAudio(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx}
@@ -164,6 +217,10 @@ function startMusic(){try{const c=getAudio();const melody=[523,523,587,523,698,6
 function toggleMusic(){startMusic()}
 async function listenForBlow(){if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){alert('Microphone is not available here. Tap the candle button instead 💗');return}try{const stream=await navigator.mediaDevices.getUserMedia({audio:true}),ctx=getAudio(),source=ctx.createMediaStreamSource(stream),analyser=ctx.createAnalyser();analyser.fftSize=512;source.connect(analyser);const data=new Uint8Array(analyser.frequencyBinCount);document.getElementById('cakeMessage').textContent='Blow gently into your microphone now…';let tries=0;const check=()=>{analyser.getByteTimeDomainData(data);let sum=0;for(let x of data)sum+=(x-128)*(x-128);const rms=Math.sqrt(sum/data.length);if(rms>15){stream.getTracks().forEach(t=>t.stop());blowCandle()}else if(++tries<100)setTimeout(check,100);else{stream.getTracks().forEach(t=>t.stop());document.getElementById('cakeMessage').textContent='No blow detected — tap the candle button instead 💗'}};check()}catch(e){alert('Microphone permission was not granted. You can tap the candle button instead 💗')}}
 function previewPhoto(event,id){const file=event.target.files[0];if(!file)return;const box=document.getElementById(id);let img=box.querySelector('img');if(!img){img=document.createElement('img');box.appendChild(img)}img.src=URL.createObjectURL(file);box.querySelector('.placeholder').style.display='none';box.querySelector('small').style.display='none';box.querySelector('.overlay').textContent='Preview only — upload image with site to share'}
+function heartMessage(){document.getElementById('heartMessage').textContent='Every heartbeat has a little place for you, Simran. No matter how ordinary the day is, you make it feel special. ❤️';celebrate()}
+function openGift(){document.getElementById('giftBox').classList.add('opened');document.getElementById('giftBox').textContent='💝';document.getElementById('giftMessage').classList.remove('hidden');celebrate()}
+function moonMessage(){document.getElementById('moonMessage').textContent='Even the moon knows how special you are to me, Simran. If the stars could speak, they would tell you to keep shining. 🌙❤️';celebrate()}
+function makeWish(){document.getElementById('wishMessage').textContent='Wish released! 🦋 May your dreams find their way to you, your heart feel loved, and your smile never run out of reasons. Happy Birthday, Simran! 💗';for(let i=0;i<3;i++)setTimeout(celebrate,i*250)}
 function revealSecret(){document.getElementById('secret').classList.toggle('hidden')}
 function celebrate(){const symbols=['💗','✨','🌸','💕','🎉'];for(let i=0;i<32;i++){const el=document.createElement('span');el.textContent=symbols[Math.floor(Math.random()*symbols.length)];el.style.cssText=`position:fixed;z-index:20;left:${Math.random()*100}vw;top:-30px;font-size:${18+Math.random()*20}px;pointer-events:none;transition:transform ${2+Math.random()*2}s linear,opacity 3s;`;document.body.appendChild(el);requestAnimationFrame(()=>{el.style.transform=`translateY(${window.innerHeight+80}px) rotate(${Math.random()*500}deg)`;el.style.opacity='0'});setTimeout(()=>el.remove(),4200)}}
 for(let i=0;i<18;i++){const h=document.createElement('span');h.className='heart';h.textContent=['♡','♥','✧'][i%3];h.style.left=(Math.random()*100)+'%';h.style.fontSize=(14+Math.random()*24)+'px';h.style.animationDuration=(9+Math.random()*12)+'s';h.style.animationDelay=(-Math.random()*15)+'s';document.getElementById('hearts').appendChild(h)}
